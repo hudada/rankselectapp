@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.example.bsproperty.MyApplication;
 import com.example.bsproperty.R;
+import com.example.bsproperty.fragment.Fragment01;
+import com.example.bsproperty.fragment.Fragment02;
+import com.example.bsproperty.fragment.Fragment03;
 import com.example.bsproperty.utils.SpUtils;
 
 import java.util.ArrayList;
@@ -35,10 +38,9 @@ public class MainActivity extends BaseActivity {
     private TextView tv_01, tv_02, tv_name;
 
     private long backTime;
-//    private HomeFragment homeFragment;
-//    private Fragment02 fragment02;
-//    private Fragment03 fragment03;
-//    private Fragment04 fragment04;
+    private Fragment01 fragment01;
+    private Fragment02 fragment02;
+    private Fragment03 fragment03;
     private ArrayList<Fragment> fragments;
     private MyFragmentPagerAdapter adapter;
     private String[] tabs = new String[]{
@@ -48,13 +50,13 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
 
-//        homeFragment = new HomeFragment();
-//        fragment02 = new Fragment02();
-//        fragment03 = new Fragment03();
-//        fragments = new ArrayList<>();
-//        fragments.add(homeFragment);
-//        fragments.add(fragment02);
-//        fragments.add(fragment03);
+        fragment01 = new Fragment01();
+        fragment02 = new Fragment02();
+        fragment03 = new Fragment03();
+        fragments = new ArrayList<>();
+        fragments.add(fragment01);
+        fragments.add(fragment02);
+        fragments.add(fragment03);
 
         adapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         vpContent.setAdapter(adapter);

@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.bsproperty.bean.UserBean;
 import com.example.bsproperty.greendao.DaoMaster;
 import com.example.bsproperty.greendao.DaoSession;
+import com.facebook.stetho.Stetho;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.log.LoggerInterceptor;
 
@@ -32,6 +33,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+//        chrome://inspect/#devices
+        Stetho.initializeWithDefaults(this);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new LoggerInterceptor("hdd"))
