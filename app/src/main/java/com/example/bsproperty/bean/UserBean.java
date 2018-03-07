@@ -1,81 +1,78 @@
 package com.example.bsproperty.bean;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
+
 /**
  * Created by wdxc1 on 2018/1/28.
  */
 
+@Entity
 public class UserBean {
-    private String number;
+    @Id(autoincrement = true)
+    private Long id;
+    private Long webid;
     private String name;
-    private String tel;
-    private String sex;
-    // 钱包余额
-    private String balance;
-    private String dong;
-    private String dan;
-    private String hao;
-
-    public String getNumber() {
-        return number;
+    private int flag;
+    private boolean isyou;
+    private boolean isout;
+    private int mvp;
+    @Generated(hash = 1214967255)
+    public UserBean(Long id, Long webid, String name, int flag, boolean isyou,
+            boolean isout, int mvp) {
+        this.id = id;
+        this.webid = webid;
+        this.name = name;
+        this.flag = flag;
+        this.isyou = isyou;
+        this.isout = isout;
+        this.mvp = mvp;
     }
-
-    public void setNumber(String number) {
-        this.number = number;
+    @Generated(hash = 1203313951)
+    public UserBean() {
     }
-
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public Long getWebid() {
+        return this.webid;
+    }
+    public void setWebid(Long webid) {
+        this.webid = webid;
+    }
     public String getName() {
-        return name;
+        return this.name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getTel() {
-        return tel;
+    public int getFlag() {
+        return this.flag;
+    }
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
+    public boolean getIsyou() {
+        return this.isyou;
+    }
+    public void setIsyou(boolean isyou) {
+        this.isyou = isyou;
+    }
+    public boolean getIsout() {
+        return this.isout;
+    }
+    public void setIsout(boolean isout) {
+        this.isout = isout;
+    }
+    public int getMvp() {
+        return this.mvp;
+    }
+    public void setMvp(int mvp) {
+        this.mvp = mvp;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getBalance() {
-        return balance;
-    }
-
-    public void setBalance(String balance) {
-        this.balance = balance;
-    }
-
-    public String getDong() {
-        return dong;
-    }
-
-    public void setDong(String dong) {
-        this.dong = dong;
-    }
-
-    public String getDan() {
-        return dan;
-    }
-
-    public void setDan(String dan) {
-        this.dan = dan;
-    }
-
-    public String getHao() {
-        return hao;
-    }
-
-    public void setHao(String hao) {
-        this.hao = hao;
-    }
 }
