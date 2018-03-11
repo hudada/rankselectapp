@@ -6,7 +6,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "25.0.0"
     defaultConfig {
-        applicationId "com.example.bsproperty"
+        applicationId "com.example.rankselect"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1

@@ -13,9 +13,14 @@ import android.widget.TextView;
 
 import com.example.bsproperty.MyApplication;
 import com.example.bsproperty.R;
+import com.example.bsproperty.bean.UserBean;
+import com.example.bsproperty.bean.UserListBean;
 import com.example.bsproperty.fragment.Fragment01;
 import com.example.bsproperty.fragment.Fragment02;
 import com.example.bsproperty.fragment.Fragment03;
+import com.example.bsproperty.net.ApiManager;
+import com.example.bsproperty.net.BaseCallBack;
+import com.example.bsproperty.net.OkHttpTools;
 import com.example.bsproperty.utils.SpUtils;
 
 import java.util.ArrayList;
@@ -50,6 +55,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
 
+        if (MyApplication.getInstance().getDaoSession().getUserBeanDao().count() <= 0) {
+            initBaseData();
+        }
+
         fragment01 = new Fragment01();
         fragment02 = new Fragment02();
         fragment03 = new Fragment03();
@@ -74,6 +83,21 @@ public class MainActivity extends BaseActivity {
         initNav();
     }
 
+    private void initBaseData() {
+        OkHttpTools.sendGet(this, ApiManager.USER_LIST)
+                .build()
+                .execute(new BaseCallBack<UserListBean>(this, UserListBean.class) {
+                    @Override
+                    public void onResponse(UserListBean userListBean) {
+                        for (UserBean userBean : userListBean.getData()) {
+                            MyApplication.getInstance().getDaoSession().getUserBeanDao()
+                                    .insert(userBean);
+                        }
+
+                    }
+                });
+    }
+
     private void initNav() {
         tv_01 = (TextView) nvView.getHeaderView(0).findViewById(R.id.tv_01);
         tv_02 = (TextView) nvView.getHeaderView(0).findViewById(R.id.tv_02);
@@ -83,7 +107,7 @@ public class MainActivity extends BaseActivity {
         tv_02.setOnClickListener(new MyClickListener());
     }
 
-    private class MyClickListener implements View.OnClickListener{
+    private class MyClickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {

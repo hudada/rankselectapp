@@ -23,10 +23,10 @@ public class MyApplication extends Application {
 
     private static MyApplication instance;
 
-    private DaoMaster.DevOpenHelper mHelper;
-    private SQLiteDatabase db;
-    private DaoMaster mDaoMaster;
-    private DaoSession mDaoSession;
+    private static DaoMaster.DevOpenHelper mHelper;
+    private static SQLiteDatabase db;
+    private static DaoMaster mDaoMaster;
+    private static DaoSession mDaoSession;
 
     private UserBean userBean;
 
@@ -43,7 +43,7 @@ public class MyApplication extends Application {
                 .build();
 
         OkHttpUtils.initClient(okHttpClient);
-
+        instance = new MyApplication();
         setDatabase();
     }
 
