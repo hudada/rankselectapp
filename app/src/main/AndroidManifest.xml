@@ -3,7 +3,7 @@
     package="com.example.bsproperty">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
     <application
         android:name=".MyApplication"
@@ -19,13 +19,17 @@
         </activity>
         <activity
             android:name=".ui.ShowActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.PeopleInfoActivity" />
+        <activity android:name=".ui.ShareInfoActivity" />
+        <activity android:name=".ui.AddPeopleActivity" />
+        <activity android:name=".ui.AddShareActivity"></activity>
     </application>
 
 </manifest>

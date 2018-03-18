@@ -25,11 +25,11 @@ public class SportsBeanDao extends AbstractDao<SportsBean, Long> {
      */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Webid = new Property(1, Long.class, "webid", false, "WEBID");
-        public final static Property Start = new Property(2, Long.class, "start", false, "START");
-        public final static Property End = new Property(3, Long.class, "end", false, "END");
-        public final static Property Sid = new Property(4, Long.class, "sid", false, "SID");
-        public final static Property Gift = new Property(5, String.class, "gift", false, "GIFT");
+        public final static Property Start = new Property(1, Long.class, "start", false, "START");
+        public final static Property End = new Property(2, Long.class, "end", false, "END");
+        public final static Property Sid = new Property(3, Long.class, "sid", false, "SID");
+        public final static Property Gift = new Property(4, String.class, "gift", false, "GIFT");
+        public final static Property Action = new Property(5, int.class, "action", false, "ACTION");
     }
 
 
@@ -46,11 +46,11 @@ public class SportsBeanDao extends AbstractDao<SportsBean, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"SPORTS_BEAN\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"WEBID\" INTEGER," + // 1: webid
-                "\"START\" INTEGER," + // 2: start
-                "\"END\" INTEGER," + // 3: end
-                "\"SID\" INTEGER," + // 4: sid
-                "\"GIFT\" TEXT);"); // 5: gift
+                "\"START\" INTEGER," + // 1: start
+                "\"END\" INTEGER," + // 2: end
+                "\"SID\" INTEGER," + // 3: sid
+                "\"GIFT\" TEXT," + // 4: gift
+                "\"ACTION\" INTEGER NOT NULL );"); // 5: action
     }
 
     /** Drops the underlying database table. */
@@ -68,30 +68,26 @@ public class SportsBeanDao extends AbstractDao<SportsBean, Long> {
             stmt.bindLong(1, id);
         }
  
-        Long webid = entity.getWebid();
-        if (webid != null) {
-            stmt.bindLong(2, webid);
-        }
- 
         Long start = entity.getStart();
         if (start != null) {
-            stmt.bindLong(3, start);
+            stmt.bindLong(2, start);
         }
  
         Long end = entity.getEnd();
         if (end != null) {
-            stmt.bindLong(4, end);
+            stmt.bindLong(3, end);
         }
  
         Long sid = entity.getSid();
         if (sid != null) {
-            stmt.bindLong(5, sid);
+            stmt.bindLong(4, sid);
         }
  
         String gift = entity.getGift();
         if (gift != null) {
-            stmt.bindString(6, gift);
+            stmt.bindString(5, gift);
         }
+        stmt.bindLong(6, entity.getAction());
     }
 
     @Override
@@ -103,30 +99,26 @@ public class SportsBeanDao extends AbstractDao<SportsBean, Long> {
             stmt.bindLong(1, id);
         }
  
-        Long webid = entity.getWebid();
-        if (webid != null) {
-            stmt.bindLong(2, webid);
-        }
- 
         Long start = entity.getStart();
         if (start != null) {
-            stmt.bindLong(3, start);
+            stmt.bindLong(2, start);
         }
  
         Long end = entity.getEnd();
         if (end != null) {
-            stmt.bindLong(4, end);
+            stmt.bindLong(3, end);
         }
  
         Long sid = entity.getSid();
         if (sid != null) {
-            stmt.bindLong(5, sid);
+            stmt.bindLong(4, sid);
         }
  
         String gift = entity.getGift();
         if (gift != null) {
-            stmt.bindString(6, gift);
+            stmt.bindString(5, gift);
         }
+        stmt.bindLong(6, entity.getAction());
     }
 
     @Override
@@ -138,11 +130,11 @@ public class SportsBeanDao extends AbstractDao<SportsBean, Long> {
     public SportsBean readEntity(Cursor cursor, int offset) {
         SportsBean entity = new SportsBean( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // webid
-            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // start
-            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // end
-            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4), // sid
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // gift
+            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // start
+            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // end
+            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // sid
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // gift
+            cursor.getInt(offset + 5) // action
         );
         return entity;
     }
@@ -150,11 +142,11 @@ public class SportsBeanDao extends AbstractDao<SportsBean, Long> {
     @Override
     public void readEntity(Cursor cursor, SportsBean entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setWebid(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setStart(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
-        entity.setEnd(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
-        entity.setSid(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
-        entity.setGift(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setStart(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setEnd(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
+        entity.setSid(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
+        entity.setGift(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setAction(cursor.getInt(offset + 5));
      }
     
     @Override

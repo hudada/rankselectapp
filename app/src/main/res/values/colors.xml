@@ -9,4 +9,5 @@
     <color name="text_3">#333333</color>
     <color name="text_9">#999999</color>
     <color name="blue_bg">#e89c23</color>
+    <color name="line">#999999</color>
 </resources>

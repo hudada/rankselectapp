@@ -57,17 +57,31 @@ public class ShowActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         random = new Random();
         selectData = new ArrayList<>();
-        mData = (ArrayList<UserBean>) MyApplication.getInstance().getDaoSession().getUserBeanDao().loadAll();
-        for (UserBean mDatum : mData) {
-            if (mDatum.getFlag() == 0) {
-                selectData.add(mDatum);
+        ArrayList<UserBean> list = (ArrayList<UserBean>) MyApplication.getInstance().getDaoSession().getUserBeanDao().loadAll();
+        if (list != null && list.size() > 0) {
+            mData = new ArrayList<>();
+            for (UserBean mDatum : list) {
+                if (!mDatum.getIsout()) {
+                    mData.add(mDatum);
+                }
+            }
+            for (UserBean mDatum : mData) {
+                if (mDatum.getFlag() == 0) {
+                    selectData.add(mDatum);
+                }
             }
         }
     }
 
-    @OnClick({R.id.btn_rank, R.id.btn_into,R.id.tv_name})
+    @OnClick({R.id.btn_rank, R.id.btn_into, R.id.tv_name})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_name:
@@ -127,6 +141,9 @@ public class ShowActivity extends BaseActivity {
             case R.id.btn_into:
                 if (isChecked) {
                     startActivity(new Intent(ShowActivity.this, MainActivity.class));
+                    manager = null;
+                    isChecked = false;
+                    btnInto.setVisibility(View.GONE);
                 }
                 break;
         }

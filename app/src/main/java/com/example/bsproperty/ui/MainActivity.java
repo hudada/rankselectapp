@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.example.bsproperty.MyApplication;
 import com.example.bsproperty.R;
+import com.example.bsproperty.bean.DbListBean;
+import com.example.bsproperty.bean.ShareBean;
+import com.example.bsproperty.bean.SportsBean;
 import com.example.bsproperty.bean.UserBean;
 import com.example.bsproperty.bean.UserListBean;
 import com.example.bsproperty.fragment.Fragment01;
@@ -84,16 +87,23 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initBaseData() {
-        OkHttpTools.sendGet(this, ApiManager.USER_LIST)
+        OkHttpTools.sendGet(this, ApiManager.DB_LIST)
                 .build()
-                .execute(new BaseCallBack<UserListBean>(this, UserListBean.class) {
+                .execute(new BaseCallBack<DbListBean>(this, DbListBean.class) {
                     @Override
-                    public void onResponse(UserListBean userListBean) {
-                        for (UserBean userBean : userListBean.getData()) {
+                    public void onResponse(DbListBean userListBean) {
+                        for (UserBean userBean : userListBean.getData().getUserBeans()) {
                             MyApplication.getInstance().getDaoSession().getUserBeanDao()
                                     .insert(userBean);
                         }
-
+                        for (ShareBean shareBean : userListBean.getData().getShareBeans()) {
+                            MyApplication.getInstance().getDaoSession().getShareBeanDao()
+                                    .insert(shareBean);
+                        }
+                        for (SportsBean sportsBean : userListBean.getData().getSportsBeans()) {
+                            MyApplication.getInstance().getDaoSession().getSportsBeanDao()
+                                    .insert(sportsBean);
+                        }
                     }
                 });
     }
@@ -131,13 +141,7 @@ public class MainActivity extends BaseActivity {
             dlLayout.closeDrawers();
             return;
         }
-        if (System.currentTimeMillis() - backTime < 2000) {
-            super.onBackPressed();
-        } else {
-            showToast(this, "再按一次，退出程序");
-            backTime = System.currentTimeMillis();
-        }
-        backTime = System.currentTimeMillis();
+        super.onBackPressed();
     }
 
     private class MyFragmentPagerAdapter extends FragmentPagerAdapter {

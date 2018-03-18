@@ -25,12 +25,12 @@ public class UserBeanDao extends AbstractDao<UserBean, Long> {
      */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Webid = new Property(1, Long.class, "webid", false, "WEBID");
-        public final static Property Name = new Property(2, String.class, "name", false, "NAME");
+        public final static Property Name = new Property(1, String.class, "name", false, "NAME");
+        public final static Property Sex = new Property(2, int.class, "sex", false, "SEX");
         public final static Property Flag = new Property(3, int.class, "flag", false, "FLAG");
-        public final static Property Isyou = new Property(4, boolean.class, "isyou", false, "ISYOU");
-        public final static Property Isout = new Property(5, boolean.class, "isout", false, "ISOUT");
-        public final static Property Mvp = new Property(6, int.class, "mvp", false, "MVP");
+        public final static Property Isout = new Property(4, boolean.class, "isout", false, "ISOUT");
+        public final static Property Mvp = new Property(5, int.class, "mvp", false, "MVP");
+        public final static Property Action = new Property(6, int.class, "action", false, "ACTION");
     }
 
 
@@ -47,12 +47,12 @@ public class UserBeanDao extends AbstractDao<UserBean, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"USER_BEAN\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"WEBID\" INTEGER," + // 1: webid
-                "\"NAME\" TEXT," + // 2: name
+                "\"NAME\" TEXT," + // 1: name
+                "\"SEX\" INTEGER NOT NULL ," + // 2: sex
                 "\"FLAG\" INTEGER NOT NULL ," + // 3: flag
-                "\"ISYOU\" INTEGER NOT NULL ," + // 4: isyou
-                "\"ISOUT\" INTEGER NOT NULL ," + // 5: isout
-                "\"MVP\" INTEGER NOT NULL );"); // 6: mvp
+                "\"ISOUT\" INTEGER NOT NULL ," + // 4: isout
+                "\"MVP\" INTEGER NOT NULL ," + // 5: mvp
+                "\"ACTION\" INTEGER NOT NULL );"); // 6: action
     }
 
     /** Drops the underlying database table. */
@@ -70,19 +70,15 @@ public class UserBeanDao extends AbstractDao<UserBean, Long> {
             stmt.bindLong(1, id);
         }
  
-        Long webid = entity.getWebid();
-        if (webid != null) {
-            stmt.bindLong(2, webid);
-        }
- 
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(3, name);
+            stmt.bindString(2, name);
         }
+        stmt.bindLong(3, entity.getSex());
         stmt.bindLong(4, entity.getFlag());
-        stmt.bindLong(5, entity.getIsyou() ? 1L: 0L);
-        stmt.bindLong(6, entity.getIsout() ? 1L: 0L);
-        stmt.bindLong(7, entity.getMvp());
+        stmt.bindLong(5, entity.getIsout() ? 1L: 0L);
+        stmt.bindLong(6, entity.getMvp());
+        stmt.bindLong(7, entity.getAction());
     }
 
     @Override
@@ -94,19 +90,15 @@ public class UserBeanDao extends AbstractDao<UserBean, Long> {
             stmt.bindLong(1, id);
         }
  
-        Long webid = entity.getWebid();
-        if (webid != null) {
-            stmt.bindLong(2, webid);
-        }
- 
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(3, name);
+            stmt.bindString(2, name);
         }
+        stmt.bindLong(3, entity.getSex());
         stmt.bindLong(4, entity.getFlag());
-        stmt.bindLong(5, entity.getIsyou() ? 1L: 0L);
-        stmt.bindLong(6, entity.getIsout() ? 1L: 0L);
-        stmt.bindLong(7, entity.getMvp());
+        stmt.bindLong(5, entity.getIsout() ? 1L: 0L);
+        stmt.bindLong(6, entity.getMvp());
+        stmt.bindLong(7, entity.getAction());
     }
 
     @Override
@@ -118,12 +110,12 @@ public class UserBeanDao extends AbstractDao<UserBean, Long> {
     public UserBean readEntity(Cursor cursor, int offset) {
         UserBean entity = new UserBean( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // webid
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // name
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
+            cursor.getInt(offset + 2), // sex
             cursor.getInt(offset + 3), // flag
-            cursor.getShort(offset + 4) != 0, // isyou
-            cursor.getShort(offset + 5) != 0, // isout
-            cursor.getInt(offset + 6) // mvp
+            cursor.getShort(offset + 4) != 0, // isout
+            cursor.getInt(offset + 5), // mvp
+            cursor.getInt(offset + 6) // action
         );
         return entity;
     }
@@ -131,12 +123,12 @@ public class UserBeanDao extends AbstractDao<UserBean, Long> {
     @Override
     public void readEntity(Cursor cursor, UserBean entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setWebid(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setSex(cursor.getInt(offset + 2));
         entity.setFlag(cursor.getInt(offset + 3));
-        entity.setIsyou(cursor.getShort(offset + 4) != 0);
-        entity.setIsout(cursor.getShort(offset + 5) != 0);
-        entity.setMvp(cursor.getInt(offset + 6));
+        entity.setIsout(cursor.getShort(offset + 4) != 0);
+        entity.setMvp(cursor.getInt(offset + 5));
+        entity.setAction(cursor.getInt(offset + 6));
      }
     
     @Override

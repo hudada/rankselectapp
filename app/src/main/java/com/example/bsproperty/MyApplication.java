@@ -6,10 +6,13 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.bsproperty.bean.UserBean;
 import com.example.bsproperty.greendao.DaoMaster;
 import com.example.bsproperty.greendao.DaoSession;
+import com.example.bsproperty.ui.BaseActivity;
 import com.facebook.stetho.Stetho;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.log.LoggerInterceptor;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -22,17 +25,22 @@ import okhttp3.OkHttpClient;
 public class MyApplication extends Application {
 
     private static MyApplication instance;
+    private static ArrayList<BaseActivity> activities;
 
     private static DaoMaster.DevOpenHelper mHelper;
     private static SQLiteDatabase db;
     private static DaoMaster mDaoMaster;
     private static DaoSession mDaoSession;
 
+    private static DateFormat mFormat;
+
     private UserBean userBean;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        activities = new ArrayList<>();
+        mFormat = new SimpleDateFormat("yyyy-MM-dd");
 //        chrome://inspect/#devices
         Stetho.initializeWithDefaults(this);
 
@@ -45,6 +53,31 @@ public class MyApplication extends Application {
         OkHttpUtils.initClient(okHttpClient);
         instance = new MyApplication();
         setDatabase();
+    }
+
+    public static MyApplication getInstance() {
+        if (instance == null) {
+            instance = new MyApplication();
+        }
+        return instance;
+    }
+
+    public static DateFormat getmFormat() {
+        return mFormat;
+    }
+
+    public void addAct(BaseActivity activity){
+        activities.add(activity);
+    }
+
+    public void removeAct(BaseActivity activity){
+        activities.remove(activity);
+    }
+
+    public void clearAct(){
+        for (BaseActivity activity : activities) {
+            activity.finish();
+        }
     }
 
     private void setDatabase() {
@@ -65,14 +98,6 @@ public class MyApplication extends Application {
 
     public SQLiteDatabase getDb() {
         return db;
-    }
-
-    public static MyApplication getInstance() {
-        if (instance == null) {
-            instance = new MyApplication();
-
-        }
-        return instance;
     }
 
     public UserBean getUserBean() {
